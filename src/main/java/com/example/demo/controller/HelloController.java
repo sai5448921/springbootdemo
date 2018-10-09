@@ -8,6 +8,7 @@ import com.example.demo.properties.ConstBean;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,7 +27,10 @@ public class HelloController {
     @RequestMapping("/index")
     public String test(){
         List<User> userList = userService.findAll();
-        return "Spring boot " + constBean.getName() + constBean.getAge();
+        if(CollectionUtils.isEmpty(userList))
+            return "Spring boot " + constBean.getName() + constBean.getAge();
+        else
+            return JSON.toJSONString(userList);
     }
 
 
